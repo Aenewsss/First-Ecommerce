@@ -1,0 +1,33 @@
+<%- include('../layouts/withoutheader.ejs') %> 
+
+<h3>Update your information</h3>
+<hr>
+<div class="row" style="display: flex;">
+
+    <div class="col-xs-12 col-md-6">
+        <form action="/user/edit/<%= id %>" method="post" class="contact-form">
+            <label for="">Username</label>
+            <input class="form-control" type="text" placeholder="Insert your Username" readonly value="<%= username %>">
+            <label for="">New Username</label>
+            <input class="form-control" name="username" type="text" placeholder="Insert your new Username" value="<%= username %>" required>
+            <button class="btn btn-primary" style="margin-top: 5px;">Edit Username</button>    
+        </form>
+    </div>
+    
+    
+    <div class="col-xs-12 col-md-6">
+        <form action="/user/edit/<%= id %>" method="post" class="contact-form">
+            <label for="">New Password</label>
+            <input class="form-control" name="password" type="text" placeholder="Insert your new password" required>
+            <label for="">Repeat Password</label>
+            <input class="form-control" name="newpassword" type="text" placeholder="Insert your new password" required>
+            <button class="btn btn-primary" style="margin-top: 5px;">Edit Password</button>
+        </form>
+    </div>
+    
+</div>
+<a class="btn btn-secondary" style="margin-top: 5px;" href="/user/logout">Logout</a>
+    
+
+<%- include('../layouts/footer.ejs') %> 
+    

@@ -1,0 +1,16 @@
+<%- include('../layouts/withoutheader.ejs') %> 
+
+<h3>Login</h3>
+<hr>
+
+<form action="/user/login" method="post" class="contact-form">
+    <label for="">E-mail</label>
+    <input class="form-control" name="email" type="email" placeholder="Insert your e-mail">
+    <label for="">Password</label>
+    <input class="form-control" name="password" type="password" placeholder="Insert your password">
+    <a <%= hidden %>  href="/user/forgot-password">Forgot my password</a>
+    <button class="btn btn-primary" style="margin-top: 5px;">Login</button>
+    <a class="btn btn-secondary" href="/user/register" style="margin-top: 5px;">or Register</a>
+</form>
+
+<%- include('../layouts/footer.ejs') %> 

@@ -1,0 +1,19 @@
+<%- include('../layouts/withoutheader.ejs') %> 
+
+<h3>Register</h3>
+<hr>
+
+<form action="/user/register" method="post" class="contact-form">
+    <label for="">Username</label>
+    <input class="form-control" name="username" type="text" placeholder="Insert your Username" required value="<%= username %>">
+    <label for="">E-mail</label>
+    <input class="form-control" name="email" type="email" placeholder="Insert your e-mail" required value="<%= email %>">
+    <label>Password</label>
+    <input class="form-control" name="password" type="password" placeholder="Insert your password" required>
+    <label for="">Repeat Password</label>
+    <input class="form-control" name="newpassword" type="password" placeholder="Insert your password again" required>
+    <button class="btn btn-primary" style="margin-top: 5px;">Register</button>
+    <a class="btn btn-secondary" href="/user/login" style="margin-top: 5px;">or Login</a>
+</form>
+
+<%- include('../layouts/footer.ejs') %> 

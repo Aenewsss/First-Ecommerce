@@ -1,0 +1,138 @@
+<%- include('./layouts/paymentheader.ejs') %>
+
+
+<div class="container contact-header">
+    <h1>Your cart <i class="bi bi-cart"></i></h1>
+    <hr>
+</div>
+<% if (typeof cart == "undefined") { %>
+
+    <h2>It looks like your cart is empty</h2>
+
+<% } else { %>
+ 
+    <form action="/cart/payment" method="post">
+        <table class="table table-striped allignmiddle">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th></th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% let total = 0 %>
+                <% cart.forEach(item => { %>
+                    <% let subtotal = item.quantity * item.price %> 
+                    <% total += subtotal %> 
+                    <tr>
+                        <td><img class="cart-image" src="<%= item.image %> " alt=""></td>
+                        <td><%= item.title.title %> </td>
+                        <td>R$ <%= item.price %> </td>
+                        <td>
+                            <a href="/cart/update/<%= item.title.slug %>?action=remove">-</a>
+                            <%= item.quantity %> 
+                            <a href="/cart/update/<%= item.title.slug %>?action=add">+</a>
+                        </td>
+                        <td>
+                            <a href="/cart/update/<%= item.title.slug %>?action=clear">Clear </a>
+                        </td>
+                        <td>R$ <%= subtotal %> </td>
+                    </tr>
+                    <% }) %>
+                    <tr>
+                        <td colspan="6" align="right"><b>Subtotal: </b>
+                            <span>R$ <%= total %> </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td <%= hidden %> colspan="6" align="right"><b>Ship: </b>
+                            <span id="frete-price-value">
+                            <span>R$ <%= fretePrice %></span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" align="right">
+                            <b>Total:</b> R$ <%= fretePrice + total %>
+                            <input style="display: none;" type="text" name="total" value="<%= total %> ">
+                        </td>
+                    </tr>
+                    <tr>    
+                        <td colspan="5" align="right">
+                            <a class="btn btn-danger clearCart" href="/cart/clear">Clear Cart</a>
+                        </td>
+                        <td colspan="5" align="right">
+                            <button class="btn btn-primary buynow">Buy now</button>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="col-xs-12 col-md-6 frete">
+        <form action="/cart/checkout" method="post">
+            <label for="">Enter your zip code to calculate shipping.</label>
+            <input type="tel" name="cep" value="<%= cep %>"> 
+            <button class="btn btn-secondary">Calcule</button>
+        
+
+            <% if (frete.length == 1) { %>
+                <p class="alert alert-danger cep-invalido" <%= hidden %>>
+                    <%= frete %> 
+                </p>
+            <% }else{ %>
+                <div class="opcao-frete">
+                    <div class="sedex">
+                        <input type="radio" name="opcaoFrete" id="sedex" value="<%= frete[0][1] %>+sedex" <%= checkedSedex %> >
+                        <label for="sedex">
+                            <span><span class="bold">Correios SEDEX:</span> R$ <%= frete[0][1] %> (até <%= frete[0][2] %> dias úteis)</span>
+                        </label>
+                    </div>                
+                    
+                    <div class="pac">
+                        <input type="radio" name="opcaoFrete" id="pac" value="<%= frete[1][1] %>+pac" <%= checkedPac %>>
+
+                        <label for="pac">
+                            <span><span class="bold">Correios PAC:</span> &nbsp;&nbsp;&nbsp; R$ <%= frete[1][1] %> (até <%= frete[1][2] %> dias úteis)</span>
+                        </label>
+                    </div>
+                </div>
+                <button id="sendFreteValue" style="display: none;">teste</button>
+            <% } %>
+        </form>
+    </div>
+ 
+<% } %>
+
+
+<script>
+    $('a.clearCart').on('click', () => {
+    if(!confirm('Are you sure?')){
+        return false;
+    }
+});
+
+    $('div.sedex').mouseup('up', () => {
+        let fretePrice = $('input#sedex').val()
+        let writeFrete = document.getElementById('frete-price-value')
+        fretePrice = Number(parseFloat(fretePrice.replace(',', '.')).toFixed(2))
+        setTimeout(() => {
+            document.getElementById('sendFreteValue').click()
+        }, 200);
+    })
+
+    $('div.pac').mouseup('up', () => {
+        let fretePrice = $('input#pac').val()
+        let writeFrete = document.getElementById('frete-price-value')
+        fretePrice = Number(parseFloat(fretePrice.replace(',', '.')).toFixed(2))
+        setTimeout(() => {
+            document.getElementById('sendFreteValue').click()
+        }, 200);
+    })
+
+</script>
+
+<%- include('./layouts/footer.ejs') %>

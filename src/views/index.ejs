@@ -1,0 +1,11 @@
+<%- include('./layouts/header.ejs')  %> 
+
+<% if (slug == 'home') { %>
+    <div class="home-page">
+        <%- content %> 
+    </div>
+<% } else { %>
+        <%- content %> 
+<% } %>
+    
+<%- include('./layouts/footer.ejs')  %> 

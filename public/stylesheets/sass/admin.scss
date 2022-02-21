@@ -1,0 +1,374 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+.sorting tr:not(.home){
+    cursor: pointer;
+}
+
+.ui-state-highlight{
+    border: 1px dashed #ccc;
+}
+
+.bi.bi-trash{
+    margin-left: 16px;
+}
+
+#message-alert{
+    text-align: center;
+    animation: hideAnimation 0s ease-in 5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hideAnimation {
+    to {
+      visibility:  hidden;                                                                 
+      height:0px;
+      width:0px;
+    }     
+  }
+
+#imgPreview{
+    margin: 20px;
+}
+
+#noimage{
+    width: 100px;
+    height: 100px;
+}
+
+.gallery{
+    padding: 0;
+    :first-child{
+        margin-left: 0;
+    }
+    li{
+        list-style: none;
+        display: inline-block;
+        margin-right: 4px;
+        a{
+            color: rgb(15, 11, 11);
+        }
+        a.bi.bi-trash{
+            margin-left: 1px;
+        }
+    }
+}
+
+.list-group{
+    :first-child{
+        border-color: black;
+    }
+    a{
+        text-decoration: none;
+    }
+}
+
+
+
+.row.products .p{
+    width: 230px;
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    border: 1px solid black;
+    a.pa{
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+        height: 140px;
+        img.pimage{
+            width: 150px;
+            height: 140px;
+        }
+    }
+    h5{
+        text-align: center;
+    } 
+    h6{
+        text-align: center;
+    }
+    a.vd{
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: springgreen;
+        padding-bottom: 16px;
+    }
+}
+
+hr{
+    color:black;
+    background-color:black;
+    width: 100%;
+    opacity: 0.5;
+}
+
+.home-page{
+    text-align:center;
+    :first-child{
+        margin-top:140px;
+    }
+}
+
+.container.contact-header{
+    padding-left: 0;
+    .hr-header{
+        width: 30%;
+    }
+}
+
+.contact-form{
+    .contact-form-names :first-child{
+        display: flex;
+        .name{
+            display: block;
+            width: 50%;
+            .form-control{
+                width: 90%;
+            }    
+        }
+        .last-name{
+            display: block;
+            width: 50%;
+            .form-control{
+                width: 100%;
+            }   
+        }
+    }
+    textarea{
+        resize: none;
+    }
+}
+
+.page-404{
+    background-color: #080808;
+    .title{
+        text-align: center;
+        h1{
+            color: whitesmoke;  
+            width: 100%;
+        }
+    }
+    .image{
+        width:100%; 
+        height: auto; 
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 770px)  {
+    .page-404{
+        .image{
+            width: auto;
+            height: auto;
+            text-align: unset;
+            position: fixed; 
+            bottom: 20px;
+        }
+        .image img{
+            width: 100%;
+            height:auto;
+        }
+    }
+}
+@media only screen and (max-width: 640px)  {
+    .page-404{
+        .title{
+            h1{
+                position: fixed;
+                top:25%;
+            }
+        }
+    }
+}
+
+img.spi{
+    width: 100%;
+}
+
+.navbar-nav.cart{
+    width: 100%;
+    li{
+        width: 100%;
+        text-align: end;
+    }
+}
+
+@media only screen and(max-width: 992px) {
+    .navbar-nav.cart{
+        width: auto;
+        li{
+            width: auto;
+            text-align: unset;
+        }
+    }
+    .row.products{
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media only screen and(max-width: 580px) {
+    .allignmiddle{
+        .cart-image{
+            width: 60px;
+        }
+        text-align: center;
+    }
+}
+@media only screen and(max-width: 400px) {
+    .allignmiddle{
+        font-size: 12px;
+    }
+}
+
+.cart-image{
+    width: 150px;
+}
+
+.allignmiddle td{
+    vertical-align: middle !important;
+}
+
+.add-cart-details{
+    text-align: center;
+}
+
+.details-images-li{
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.frete{
+    label{
+        display: block;
+    }
+    input{
+        display: inline;
+        height: 35px;
+        margin-top: 10px;
+        vertical-align: sub;
+    }
+    button{
+        margin-top: 5px;
+    }
+    .opcao-frete{
+        margin-top: 10px;
+        cursor: pointer;
+        div{
+            > *{
+                cursor: pointer;
+            }
+            border: 1px solid black;
+            display:flex;
+            background-color: #F2F2F2;
+            input{
+                background-color: purple;
+                width: 15px;
+                margin-top: 0;
+                margin-left: 5px;
+            }
+            label{
+                margin-left: 4px;
+                margin-top: 5px;
+                .bold{
+                    font-weight: 500;
+                }
+            }
+        }
+        .pac{
+            margin-top: 5px;
+        }
+    }
+}
+
+.cep-invalido{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.frete-payment{
+    label{
+        display: block;
+    }
+    input{
+        display: inline;
+        height: 35px;
+        margin-top: 10px;
+        vertical-align: sub;
+        text-align: center;
+    }
+    button{
+        max-width: 100px;
+        margin-top: 5px;
+        max-height: 40px;
+    }
+    .opcao-frete{
+        margin-top: 10px;
+        cursor: pointer;
+        div{
+            > *{
+                cursor: pointer;
+            }
+            justify-content: center;
+            display:flex;
+            input{
+                background-color: purple;
+                width: 15px;
+                margin-top: 0;
+                margin-left: 5px;
+            }
+            label{
+                border: 1px solid black;
+                background-color: #F2F2F2;
+                margin-left: 4px;
+                margin-top: 5px;
+                span{
+                    font-size: 13px;
+                    .bold{
+                        font-size: 15px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+        .pac{
+            margin-top: 5px;
+        }
+    }
+}
+
+.title-service-cep{
+    margin-top: 10px;
+}
+
+.button-carousel{
+    background-color: #080808;
+    margin-top: 100px;
+}
+
+.carousel-item{
+    text-align: center;
+}
+
+.price-calcule{
+    margin-top: 100px;
+}
+
+#paypal{
+    display: inline-block;
+    width: 300px;
+}
+
+.cart-details table{
+    display: initial;
+}
+
+.login{
+    border: 1px solid white;
+    border-radius: 4px;
+    padding: 4;
+}

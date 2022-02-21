@@ -1,0 +1,236 @@
+<%- include('./layouts/paymentheader.ejs') %>
+<link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"/>
+<h1><%= title %> </h1>
+<hr>
+
+<div class="row">
+    <div class="col-xs-12"> 
+        <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+            <div class="carousel-inner">    
+                <div class="carousel-item active" id="screen-1">
+
+                    <div class="frete-payment">
+
+                        <form action="/cart/payment/<%= subtotal %>" method="post">
+                            <label for=""><h5>Enter your zip code to calculate shipping.</h5></label>
+                            <input type="tel" name="cep" value="<%= cep %>"> 
+                            <button class="btn btn-secondary">Calcule</button>
+
+
+                            <% if (frete.length == 1) { %>
+                            
+                            <div class="cep-invalido">
+                                <p class="alert alert-danger" <%= hidden %>>
+                                    <%= frete %> 
+                                </p>
+                            </div>
+
+                            <% }else{ %>
+
+                            <h5 class="title-service-cep">Choose your service:</h5>
+                            <div class="opcao-frete">
+
+                                <div class="sedex">
+                                    <label for="sedex">
+                                        <input type="radio" name="opcaoFrete" id="sedex" value="<%= frete[0][1] %>+sedex" <%= checkedSedex %> >
+                                        <span><span class="bold">SEDEX:</span> R$ <%= frete[0][1] %> (até <%= frete[0][2] %> dias úteis) &nbsp;&nbsp; </span>
+                                    </label>
+                                </div>                
+                                
+                                <div class="pac">
+                                    <label for="pac">
+                                        <input type="radio" name="opcaoFrete" id="pac" value="<%= frete[1][1] %>+pac" <%= checkedPac %>>
+                                        <span><span class="bold">PAC:</span> &nbsp;&nbsp;&nbsp; R$ <%= frete[1][1] %> (até <%= frete[1][2] %> dias úteis) &nbsp;&nbsp; </span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <button id="sendFreteValue" style="display: none;">teste</button>
+                            <% } %> 
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="carousel-item cart-details">
+                    <table class="table table-striped allignmiddle">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th></th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cart.forEach(item => { %>
+                                <% let subtotal = item.quantity * item.price %> 
+                                <tr>
+                                    <td><%= item.title.title %> </td>
+                                    <td>R$ <%= item.price %> </td>
+                                    <td>
+                                        <%= item.quantity %> 
+                                    </td>
+                                    <td></td>
+                                    <td align="right">R$ <%= subtotal %> </td>
+                                </tr>
+                                <% }) %>
+                                <tr>
+                                    <td colspan="6" align="right"><b>Subtotal: </b>
+                                        <span>R$ <%= total %> </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" align="right"><b>Ship: </b>
+                                        <span id="frete-price-value">
+                                        <span>R$ <%= fretePrice %></span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" align="right">
+                                        <b>Total:</b> R$ <%= total %>
+                                        <input style="display: none;" type="text" name="total" value="<%= total %> ">
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="carousel-item paypal">
+                    <h5>Choose your payment method:</h5>
+                    <div style="opacity: <%= opacity %>; pointer-events: <%= pointer %>">
+                        <div id="paypal"></div>
+                    </div>
+                    <% if (frete.length == 1) { %>
+                        <div class="cep-invalido">
+                            <p class="alert alert-danger">Insert a valid CEP to proceed</p>
+                        </div>
+                    <% }else if(fretePrice == 0){ %> 
+                        <div class="cep-invalido">
+                            <p class="alert alert-danger">Choose a valid shipping service to proceed</p>
+                        </div>
+                    <% } %> 
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev button-carousel" id="button-screen-1" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+
+            <button class="carousel-control-next button-carousel" id="button-screen-2" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    paypal.Buttons({
+        style: {
+            layout:  'vertical',
+            color:   'blue',
+            shape:   'pill',
+            label:   'paypal',
+            tagline:  false,
+        },
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    "amount": {
+                    "currency_code": "USD",
+                    "value": "<%= total %>",
+                    "breakdown": {
+                        "item_total": {  /* Required when including the `items` array */
+                        "currency_code": "USD",
+                        "value": "<%= total %>"
+                        }
+                    }
+                },
+                    "items": [
+                        <% cart.forEach(item => { %>
+                        {
+                            "name": "<%= item.title.title %>", 
+                            "description": "<%= item.description %>", 
+                            "unit_amount": {
+                            "currency_code": "USD",
+                            "value": "<%= item.price %>"
+                            },
+                            "quantity": "<%= item.quantity %>"
+                        },
+                        <% }) %>
+
+                        {
+                            "name": "shipping", 
+                            "description": "Service shipping: <%= service %>", 
+                            "unit_amount": {
+                            "currency_code": "USD",
+                            "value": "<%= fretePrice %>"
+                            },
+                            "quantity": "1"
+                        }
+                    ],
+                    "shipping": {
+                        options: [
+                            <% if(service == 'sedex'){ %>
+                        {
+                            id: "SEDEX",
+                            label: "Correios SEDEX",
+                            type: "SHIPPING",
+                            selected: true,
+                            amount: {
+                                value: "<%= fretePrice %>",
+                                currency_code: "USD"
+                            }
+                        },
+                        <% }else{ %>
+                        {
+                            id: "PAC",
+                            label: "Correios PAC",
+                            type: "SHIPPING",
+                            selected: true,
+                            amount: {
+                                value: "<%= fretePrice %>",
+                                currency_code: "USD"
+                            }
+                        }
+                        <% } %>
+                        ]
+                    }
+                    }]
+            });
+        },
+
+      // Finalize the transaction after payer approval
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+          // Successful capture! For dev/demo purposes:
+              console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+              var transaction = orderData.purchase_units[0].payments.captures[0];
+              window.location.href = '/cart/payment/success'
+        });
+      }
+    }).render('#paypal');
+
+    $('div.sedex').mouseup('up', () => {
+        setTimeout(() => {
+            document.getElementById('sendFreteValue').click()
+        }, 200);
+    })
+
+    $('div.pac').mouseup('up', () => {
+        setTimeout(() => {
+            document.getElementById('sendFreteValue').click()
+        }, 200);
+    })
+
+    window.onload($('button.navbar-toggler').css('display', 'none'))
+</script>
+
+<%- include('./layouts/footer.ejs') %>

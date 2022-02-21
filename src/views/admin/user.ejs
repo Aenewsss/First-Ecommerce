@@ -1,0 +1,34 @@
+<%- include('../layouts/adminheader.ejs') %>
+
+<h1 class="display-4">Users</h1>
+<br>
+
+<table class="table table-striped">
+    <thead>
+        <tr class="home">
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.username %></td>
+                <td><%= user.email %></td>
+                <% if (user.username == 'ADMIN' && user.email == 'admin@admin') { %>
+                 <td></td>
+                <% }else{ %>
+                <td>
+                    <a class="bi bi-trash" id="confirmDeletion" href="/admin/users/delete-user/<%= user._id %>"></a> 
+                </td>
+                <% } %>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+
+<%- include('../layouts/adminfooter.ejs') %>

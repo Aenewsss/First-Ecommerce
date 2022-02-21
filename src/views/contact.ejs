@@ -1,0 +1,23 @@
+<%- include('./layouts/withoutheader.ejs') %> 
+
+<div class="container contact-header">
+    <h1>CONTACT US</h1>
+    <hr class="hr-header">
+    <h3>Insert your sugestion for us!</h3>
+</div>
+
+<form action="/contact/suggestion" class="contact-form" method="post">
+        <div class="mb-3">
+            <label for="comments">Comments</label>
+            <p>
+                <textarea class="form-control" cols="46" rows="3" name="comments" required placeholder="Add your comment here"></textarea>
+            </p>
+        </div>
+        
+        <div class="mb-3">
+            <button class="btn btn-primary">Send</button>
+            <small>or press <strong>enter</strong></small>
+        </div>
+</form>  
+
+<%- include('./layouts/footer.ejs') %>
